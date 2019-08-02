@@ -9,6 +9,7 @@ https://developers.google.com/apps-script/guides/triggers/installable#managing_t
 스크립트 에디터에서 myOnEdit 함수를 [수정] - [현재 프로젝트의 트리거]로 이동한 뒤 "트리거 추가" 버튼 클릭 <br>
 이벤트 소스 선택 - 시간 기반, 분 단위, 1분마다로 설정<br>
 종목명은 한국거래소 기준으로 일치해야 조회가 되며, 네이버 증권정보의 종목명과 다를 수 있습니다.<br>(ex. 네이버 - 현대차, 한국거래소 - 현대자동차)<br>
+<img src="https://github.com/woo1/google-apps-script-example/blob/master/images/sample-stock.png?raw=true"/>
 
 
 ## 2. RSS Import
