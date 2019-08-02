@@ -1,12 +1,36 @@
 // https://kind.krx.co.kr/corpgeneral/corpList.do?method=loadInitPage
 // 전체 종목코드 - 코스피, 코스닥으로 분리해서 받기
 var code_KOSDAQ = "KOSDAQ_SPREADSHEET_ID"
-var code_KOSPI = "KOSPI_SPREADSHEET_ID"
-var main_code = "MAIN_SPREADSHEET_ID"
+var code_KOSPI = "KOSPI_SPREADSHEET_ID-p8nMdn56I"
+var curr_sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
+
+function myOnEdit() {
+  printDt()
+  
+  var has_data = false
+  var values = curr_sheet.getRange('A2:A').getValues()
+  for(var i=0; i<values.length; i++){
+    var data = values[i]
+    if(data == ''){
+      break
+    }
+    has_data = true
+    
+    var row = getKorStock(data)
+    if(row.length > 0){
+      var rownum = i + 2
+      SpreadsheetApp.getActive().getRange('B' + rownum.toString()).setValue(row[1])
+    }
+  }
+  
+  if(!has_data){
+    SpreadsheetApp.getActive().getRange('A2').setValue("검색하고 싶은 종목명을 여기에 입력해주세요.")
+    return
+  }
+}
 
 function myFunction() {
-  printDt()
-  getKorStock("삼성전자")
+  
 }
 
 function printDt(){
@@ -14,9 +38,9 @@ function printDt(){
   var timeStamp = d.getTime();  // Number of ms since Jan 1, 1970
 
   var currentTime = d.toLocaleTimeString()
-  var sheet = SpreadsheetApp.openById(main_code).getSheetByName("시트1")
-  var row = [currentTime]
-  sheet.appendRow(row)
+  var sheet = curr_sheet
+  SpreadsheetApp.getActive().getRange('A1').setValue("최종갱신일시")
+  SpreadsheetApp.getActive().getRange('B1').setValue(currentTime)
 }
 
 function prints(str_val){
@@ -25,47 +49,44 @@ function prints(str_val){
 
 // get stock price from spreadsheet
 function getAlphabetStockPrice() {
-  var SHEET_FILE_ID = main_code
-  var sheet = SpreadsheetApp.openById(SHEET_FILE_ID).getSheetByName('시트1')
+  var sheet = curr_sheet
   return sheet.getRange('B1').getValue()
 }
 
 function getKorStock(ticker){
   ksp_code = findInKospi(ticker)
   if(ksp_code != ""){
-    appendStockRowKRX(ksp_code, ticker)
+    return getStockRowKRX(ksp_code, ticker)
   } else {
     ksd_code = findInKosdaq(ticker)
     if(ksd_code != ""){
-      appendStockRowKSD(ksd_code, ticker)
+      return getStockRowKSD(ksd_code, ticker)
     } else {
       prints("No data - " + ticker)
+      return []
     }
   }
 }
 
 // add row to spreadsheet
 function appendStockRow(ticker) {
-  var SHEET_FILE_ID = main_code
-  var sheet = SpreadsheetApp.openById(SHEET_FILE_ID).getSheetByName("시트1")
+  var sheet = curr_sheet
   var row = [ticker, "=GOOGLEFINANCE(\"" + ticker + "\")"]
   sheet.appendRow(row)
 }
 
 // add row to spreadsheet
-function appendStockRowKRX(ticker, ticker_nm) {
-  var SHEET_FILE_ID = main_code
-  var sheet = SpreadsheetApp.openById(SHEET_FILE_ID).getSheetByName("시트1")
+function getStockRowKRX(ticker, ticker_nm) {
+  var sheet = curr_sheet
   var row = [ticker_nm, "=GOOGLEFINANCE(\"KRX:" + ticker + "\")"]
-  sheet.appendRow(row)
+  return row
 }
 
 // add row to spreadsheet
-function appendStockRowKSD(ticker, ticker_nm) {
-  var SHEET_FILE_ID = main_code
-  var sheet = SpreadsheetApp.openById(SHEET_FILE_ID).getSheetByName("시트1")
+function getStockRowKSD(ticker, ticker_nm) {
+  var sheet = curr_sheet
   var row = [ticker_nm, "=GOOGLEFINANCE(\"KOSDAQ:" + ticker + "\")"]
-  sheet.appendRow(row)
+  return row
 }
 
 function cvtCode(code){
@@ -77,8 +98,6 @@ function cvtCode(code){
       add_txt += "0"
     }
   }
-  prints(code2.length)
-  prints(code2)
   return add_txt + code2
 }
 
