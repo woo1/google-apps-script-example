@@ -1,7 +1,7 @@
 // https://kind.krx.co.kr/corpgeneral/corpList.do?method=loadInitPage
 // 전체 종목코드 - 코스피, 코스닥으로 분리해서 받기
 var code_KOSDAQ = "KOSDAQ_SPREADSHEET_ID"
-var code_KOSPI = "KOSPI_SPREADSHEET_ID-p8nMdn56I"
+var code_KOSPI = "KOSPI_SPREADSHEET_ID"
 var curr_sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
 
 function myOnEdit() {
