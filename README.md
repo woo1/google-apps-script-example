@@ -10,3 +10,6 @@ KOSDAQ : https://drive.google.com/file/d/16P7ZKvYv77yQ9cOaX9fuyo5E6SJqu4Cs/view?
 뉴스 등 RSS 피드를 가지고서 관련 정보를 테이블로 보여줍니다. <br>
 뉴스 검색 RSS 피드 가져오기 : https://www.youtube.com/watch?v=ua_WFNutGAE
 ex) 스프레트 시트 셀 안에서 =importfeed("RSS 피드 주소")
+
+## 3. get_news_v2.gs
+GG.gs 파일의 다른 버전으로 스프레드시트의 B1 셀에 키워드를 입력하면 바로 뉴스정보를 네이버에서 조회해서 뿌려주는 스크립트입니다. <br>
