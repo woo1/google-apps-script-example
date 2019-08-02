@@ -7,10 +7,10 @@ function onEdit(e) { //에딧할때마다 실행
   }
   keyword = encodeURI(keyword);
 
-   if(sh.getName()=="관련 뉴스"){
+   if(SpreadsheetApp.getActive().getName()=="관련 뉴스"){
    SpreadsheetApp.getActive().getRange('A2').setValue('=importfeed("http://newssearch.naver.com/search.naver?where=rss&query='+keyword+'&field=0&nx_search_query=&nx_and_query=&nx_sub_query=&nx_search_hlquery=&is_dts=0")');
   }
-   if(sh.getName()=="관련 뉴스" && sh.getRange('A1').getValue() =="1"){
+   if(SpreadsheetApp.getActive().getName()=="관련 뉴스" && sh.getRange('A1').getValue() =="1"){
    SpreadsheetApp.getActive().getRange('A2').setValue('=importfeed("http://newssearch.naver.com/search.naver?where=rss&query='+keyword+'&field=0&nx_search_query=&nx_and_query=&nx_sub_query=&nx_search_hlquery=&is_dts=1")');
   }
   
